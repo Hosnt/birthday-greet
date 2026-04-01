@@ -19,6 +19,8 @@ html,body{
   background:var(--dark);
   font-family:'Lato',sans-serif;
   touch-action:manipulation;
+  /* Fix iOS height */
+  height: 100dvh;
 }
 
 /* ══════════════ LETTER ══════════════ */
@@ -27,6 +29,7 @@ html,body{
   display:flex;align-items:center;justify-content:center;
   background:rgba(6,0,15,.97);backdrop-filter:blur(10px);
   transition:opacity .5s;
+  padding: 16px;
 }
 #letter-modal.hidden{opacity:0;pointer-events:none;}
 
@@ -37,7 +40,7 @@ html,body{
   max-height:82dvh;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
-  padding:46px 28px 34px;
+  padding:46px 24px 34px;
   position:relative;
   border:1.5px solid #f0b0d0;
   box-shadow:0 0 0 1px rgba(224,23,110,.18),0 28px 80px rgba(224,23,110,.36);
@@ -51,7 +54,7 @@ html,body{
 
 .lrules{background-image:repeating-linear-gradient(transparent,transparent 30px,#f0d0e8 30px,#f0d0e8 31px);}
 .lhead{font-family:'Alex Brush',cursive;font-size:clamp(1.75rem,5vw,2.35rem);color:#c9005e;text-align:center;margin-bottom:22px;line-height:1.2;}
-.lbody{font-family:'Playfair Display',serif;font-size:clamp(.95rem,2.4vw,1.04rem);line-height:2.05;color:#1a0030;}
+.lbody{font-family:'Playfair Display',serif;font-size:clamp(.9rem,2.4vw,1.04rem);line-height:2.05;color:#1a0030;}
 .lbody p{margin-bottom:1.4em;}
 .ldate{font-family:'Alex Brush',cursive;font-size:1.12rem;color:#c9005e;display:block;margin:12px 0 4px;}
 .lsign{font-family:'Alex Brush',cursive;font-size:1.85rem;color:#7a0039;text-align:right;margin-top:24px;}
@@ -64,6 +67,7 @@ html,body{
   border:none;border-radius:60px;cursor:pointer;
   box-shadow:0 8px 28px rgba(224,23,110,.55);
   transition:transform .2s,box-shadow .2s;
+  -webkit-appearance:none;
 }
 #open-btn:active{transform:scale(.95);}
 
@@ -73,8 +77,9 @@ html,body{
   overflow:hidden;
   display:none;
   flex-direction:row;
-  align-items:center;
+  align-items:stretch;
   justify-content:center;
+  height:100dvh;
 }
 #main.show{display:flex;}
 
@@ -96,12 +101,12 @@ html,body{
 /* confetti */
 #cl{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
 .cp{position:absolute;border-radius:2px;animation:cfFall linear infinite;}
-@keyframes cfFall{0%{transform:translateY(-20px) rotate(0);opacity:.7;}100%{transform:translateY(102vh) rotate(780deg);opacity:0;}}
+@keyframes cfFall{0%{transform:translateY(-20px) rotate(0);opacity:.7;}100%{transform:translateY(110vh) rotate(780deg);opacity:0;}}
 
 /* ══════════════ FILM STRIPS ══════════════ */
 .film-strip{
-  width:130px;
-  height:100vh;
+  width:90px;
+  height:100dvh;
   flex-shrink:0;
   position:relative;
   overflow:hidden;
@@ -109,56 +114,35 @@ html,body{
   border-left:3px solid #1a1a1a;
   border-right:3px solid #1a1a1a;
 }
+
+/* Sprocket holes via pseudo */
 .film-strip::before,.film-strip::after{
   content:'';
   position:absolute;
   top:0;bottom:0;
-  width:14px;
+  width:13px;
   background:repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 8px,
+    transparent 6px,
+    #000 6px,
     #000 8px,
-    #000 10px,
-    transparent 10px,
-    transparent 28px,
-    #0a0a0a 28px,
-    #0a0a0a 30px
+    transparent 8px,
+    transparent 26px,
+    #111 26px,
+    #111 28px
   );
-  z-index:2;
+  z-index:3;
 }
 .film-strip::before{left:0;}
 .film-strip::after{right:0;}
 
-/* Sprocket holes */
-.sprockets{
-  position:absolute;
-  top:0;bottom:0;
-  width:14px;
-  z-index:3;
-  display:flex;
-  flex-direction:column;
-  gap:0;
-  overflow:hidden;
-}
-.sprockets.left{left:0;}
-.sprockets.right{right:0;}
-.sprocket-hole{
-  width:8px;height:6px;
-  background:#000;
-  border-radius:1.5px;
-  margin:0 auto;
-  flex-shrink:0;
-  margin-top:10px;
-}
-
 .film-track{
   position:absolute;
-  left:14px;right:14px;
+  left:13px;right:13px;
   top:0;
   display:flex;
   flex-direction:column;
-  gap:0;
   will-change:transform;
 }
 .film-track.scroll-down{ animation:scrollDown linear infinite; }
@@ -179,8 +163,8 @@ html,body{
   flex-shrink:0;
   overflow:hidden;
   background:#111;
-  border-top:3px solid #1a1a1a;
-  border-bottom:3px solid #1a1a1a;
+  border-top:2px solid #1a1a1a;
+  border-bottom:2px solid #1a1a1a;
   position:relative;
 }
 .film-frame img{
@@ -210,15 +194,17 @@ html,body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:18px;
-  padding:0 10px;
+  gap:clamp(8px,2vw,18px);
+  padding:0 8px;
   position:relative;
   z-index:2;
+  overflow:hidden;
+  min-width:0;
 }
 
 .htitle{
   font-family:'Alex Brush',cursive;
-  font-size:clamp(2.2rem,6vw,4rem);
+  font-size:clamp(1.7rem,5.5vw,4rem);
   color:#fff;
   line-height:1.1;
   text-align:center;
@@ -236,34 +222,36 @@ html,body{
 .hsub{
   font-family:'Playfair Display',serif;
   font-style:italic;
-  font-size:clamp(.78rem,1.8vw,1rem);
+  font-size:clamp(.68rem,1.8vw,.9rem);
   color:#8a9db8;
   text-align:center;
   letter-spacing:.04em;
 }
 
-/* ══════════════ FLOWER ══════════════ */
+/* ══════════════ FLOWER CANVAS ══════════════ */
 #flower-wrap{
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
+  flex-shrink:1;
 }
 
 #flowerCanvas{
-  width:clamp(340px,42vw,520px);
-  height:clamp(340px,42vw,520px);
-  will-change:transform;
+  /* Responsive: fills available space */
+  width: clamp(180px, 42vw, 340px);
+  height: clamp(220px, 52vw, 420px);
+  display:block;
 }
 
 /* ══════════════ QUOTE ══════════════ */
 .quote-line{
   font-family:'Playfair Display',serif;
   font-style:italic;
-  font-size:clamp(.78rem,1.6vw,.92rem);
+  font-size:clamp(.68rem,1.5vw,.88rem);
   color:#7a90aa;
   text-align:center;
-  max-width:360px;
+  max-width:300px;
   line-height:1.7;
 }
 .quote-line span{
@@ -276,41 +264,61 @@ html,body{
 
 /* ══════════════ FABs ══════════════ */
 #mail-fab{
-  position:fixed;bottom:18px;left:18px;z-index:100;
+  position:fixed;bottom:env(safe-area-inset-bottom, 18px);
+  bottom:calc(18px + env(safe-area-inset-bottom));
+  left:18px;z-index:100;
   width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,var(--pink),var(--pink2));
   border:none;color:#fff;font-size:1.15rem;
   display:none;align-items:center;justify-content:center;
   cursor:pointer;box-shadow:0 4px 18px rgba(224,23,110,.45);
   transition:transform .2s;
+  -webkit-appearance:none;
 }
 #mail-fab.show{display:flex;}
 #mail-fab:active{transform:scale(.9);}
 #mb{
-  position:fixed;bottom:18px;right:18px;z-index:100;
+  position:fixed;
+  bottom:calc(18px + env(safe-area-inset-bottom));
+  right:18px;z-index:100;
   width:44px;height:44px;border-radius:50%;
   background:linear-gradient(135deg,var(--blue),var(--blue2));
   border:none;color:#fff;font-size:1.05rem;
   display:none;align-items:center;justify-content:center;
   cursor:pointer;box-shadow:0 4px 18px rgba(26,111,196,.4);
   transition:transform .2s;
+  -webkit-appearance:none;
 }
 #mb.show{display:flex;}
 #mb:active{transform:scale(.9);}
 
-/* ══════════════ MOBILE ══════════════ */
-@media(max-width:600px){
-  .film-strip{width:90px;}
-  .film-track{left:12px;right:12px;}
-  .sprockets{width:12px;}
-  .film-strip::before,.film-strip::after{width:12px;}
-  #flower-svg{width:clamp(220px,60vw,320px);}
-  .htitle{font-size:clamp(1.9rem,8vw,2.6rem);}
+/* ══════════════ WIDER SCREENS ══════════════ */
+@media(min-width:601px){
+  .film-strip{width:120px;}
+  .film-strip::before,.film-strip::after{width:14px;}
+  .film-track{left:14px;right:14px;}
+  #flowerCanvas{
+    width:clamp(260px,30vw,420px);
+    height:clamp(320px,38vw,520px);
+  }
+}
+
+/* Landscape mobile fix */
+@media(max-height:500px){
+  #center{ gap:4px; }
+  .htitle{ font-size:1.4rem; }
+  .hsub{ display:none; }
+  .quote-line{ display:none; }
+  #flowerCanvas{
+    width: clamp(120px, 30vh, 200px);
+    height: clamp(150px, 38vh, 250px);
+  }
+  .film-strip{ width:64px; }
 }
 </style>
 </head>
 <body>
-<audio id="bgm" loop><source src="mus2.mp3" type="audio/mpeg"></audio>
+<audio id="bgm" loop><source src="mus.mp3" type="audio/mpeg"></audio>
 <button id="mb" onclick="toggleMusic()">🎵</button>
 <button id="mail-fab" onclick="reOpenLetter()" title="Read letter again">💌</button>
 
@@ -393,156 +401,410 @@ ILOVEYOU!!</p>
     <div class="fade-bot"></div>
     <div class="film-track scroll-up" id="track-right"></div>
   </div>
-
 </div>
 
 <script>
-/* ─── Canvas Flower ─── */
-const PETAL_SRCS = ['pic.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png'];
-const CW = 460, CH = 460;         // canvas internal resolution (square, no stem)
-const CX = 230, CY = 230;         // flower center
-const RX = 88,  RY = 138;         // petal half-widths (bigger petals)
-const PETAL_DIST = 130;           // distance from center to petal center
+/* ══════════════════════════════════════════════
+   BLUE GERBERA DAISY — canvas drawing
+   Matches real bouquet: blue velvet-like petals,
+   white fuzzy center, wrapped stem with pink/gold bow
+══════════════════════════════════════════════ */
 
-let flowerAngle = 0;
 const canvas = document.getElementById('flowerCanvas');
-canvas.width  = CW;
-canvas.height = CH;
 const ctx = canvas.getContext('2d');
 
-// Load all 6 images first, then draw
-const imgs = [];
-let loaded = 0;
-PETAL_SRCS.forEach((src, i) => {
-  const img = new Image();
-  img.onload  = () => { loaded++; if(loaded === 6) startFlower(); };
-  img.onerror = () => { loaded++; if(loaded === 6) startFlower(); }; // still draw on fail
-  img.src = src;
-  imgs[i] = img;
-});
+// Internal resolution — we'll scale via CSS
+const CW = 400, CH = 500;
+canvas.width = CW;
+canvas.height = CH;
 
-function drawPetal(angleDeg, img) {
-  const rad = (angleDeg * Math.PI) / 180;
-  // Center of this petal in global coords
-  const px = CX + Math.sin(rad) * PETAL_DIST;
-  const py = CY - Math.cos(rad) * PETAL_DIST;
+// Flower center coords & sizes
+const FX = 200, FY = 188; // flower head center
+const STEM_TOP = FY + 10;
 
+/* ── Helpers ── */
+function lerp(a,b,t){return a+(b-a)*t;}
+function hsl(h,s,l){return `hsl(${h},${s}%,${l}%)`;}
+
+/* ── Draw a single gerbera petal ──
+   angle: radians from center outward
+   len, w: petal length, max width
+   col1, col2: gradient colors */
+function drawPetal(cx, cy, angle, len, w, col1, col2, alpha=1){
   ctx.save();
-  // Move to petal center, rotate so petal points outward from flower center
-  ctx.translate(px, py);
-  ctx.rotate(rad);
+  ctx.globalAlpha = alpha;
+  ctx.translate(cx, cy);
+  ctx.rotate(angle);
 
-  // Draw petal shadow
-  ctx.shadowColor = 'rgba(2,0,20,0.55)';
-  ctx.shadowBlur = 18;
-  ctx.shadowOffsetY = 4;
+  // Petal tip coords (tip is at -len in local Y after rotate)
+  const grad = ctx.createLinearGradient(0, 0, 0, -len);
+  grad.addColorStop(0, col1);
+  grad.addColorStop(0.6, col2);
+  grad.addColorStop(1, '#e8f4ff');
 
-  // Clip to ellipse shape
   ctx.beginPath();
-  ctx.ellipse(0, 0, RX, RY, 0, 0, Math.PI * 2);
-  ctx.clip();
+  // Draw ellipse-ish petal shape
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(-w*0.5, -len*0.25, -w*0.55, -len*0.65, 0, -len);
+  ctx.bezierCurveTo( w*0.55, -len*0.65,  w*0.5, -len*0.25, 0, 0);
+  ctx.closePath();
 
-  // Fill dark blue base
-  ctx.fillStyle = '#162d6a';
-  ctx.fillRect(-RX, -RY, RX*2, RY*2);
+  ctx.fillStyle = grad;
+  ctx.fill();
 
-  // Draw image zoomed out more — use min scale so whole image is visible, then scale up slightly
-  if (img && img.naturalWidth > 0) {
-    const iw = img.naturalWidth, ih = img.naturalHeight;
-    const bw = RX * 2, bh = RY * 2;
-    // Use min to fit the image (zoom out), then multiply by 0.85 to show even more context
-    const scale = Math.min(bw / iw, bh / ih) * 1.15;
-    const dw = iw * scale, dh = ih * scale;
-    const dx = -dw / 2, dy = -dh / 2;
-    ctx.drawImage(img, dx, dy, dw, dh);
+  // Petal vein (center line)
+  ctx.beginPath();
+  ctx.moveTo(0,-2);
+  ctx.lineTo(0,-len*0.88);
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
+
+  // Subtle side veins
+  for(let v=1;v<=3;v++){
+    const vy = -len*(0.2+v*0.15);
+    const vx = w*0.22*(1-v*0.22);
+    ctx.beginPath();
+    ctx.moveTo(0,vy);
+    ctx.lineTo(vx, vy - len*0.06);
+    ctx.strokeStyle='rgba(255,255,255,0.10)';
+    ctx.lineWidth=0.5;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0,vy);
+    ctx.lineTo(-vx, vy - len*0.06);
+    ctx.stroke();
   }
 
-  // Subtle highlight overlay
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  const hl = ctx.createRadialGradient(-RX*0.3, -RY*0.4, 0, 0, 0, RX*1.2);
-  hl.addColorStop(0, 'rgba(255,255,255,0.12)');
-  hl.addColorStop(1, 'rgba(0,0,80,0.18)');
-  ctx.fillStyle = hl;
-  ctx.fillRect(-RX, -RY, RX*2, RY*2);
+  // Edge highlight
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.bezierCurveTo(-w*0.5,-len*0.25,-w*0.55,-len*0.65,0,-len);
+  ctx.strokeStyle='rgba(200,230,255,0.22)';
+  ctx.lineWidth=1;
+  ctx.stroke();
 
   ctx.restore();
+}
 
-  // Petal border (drawn outside clip)
-  ctx.save();
-  ctx.translate(px, py);
-  ctx.rotate(rad);
+/* ── Draw full gerbera flower ── */
+function drawGerbera(cx, cy){
+  const N_OUTER = 20;  // outer ring petals
+  const N_INNER = 12;  // inner ring petals (shorter)
+  const OUTER_LEN = 88;
+  const INNER_LEN = 56;
+  const OUTER_W   = 14;
+  const INNER_W   = 10;
+
+  // Deep blue outer petals
+  for(let i=0;i<N_OUTER;i++){
+    const ang = (i/N_OUTER)*Math.PI*2 - Math.PI/2;
+    const hue = 210 + Math.sin(i)*6;
+    drawPetal(cx,cy, ang, OUTER_LEN, OUTER_W,
+      hsl(hue,80,32), hsl(hue+5,85,52), 0.95);
+  }
+
+  // Slightly lighter/shorter inner petals
+  for(let i=0;i<N_INNER;i++){
+    const ang = ((i+0.5)/N_INNER)*Math.PI*2 - Math.PI/2;
+    drawPetal(cx,cy, ang, INNER_LEN, INNER_W,
+      hsl(215,75,38), hsl(210,82,58), 0.9);
+  }
+
+  // ── White fuzzy center disc ──
+  // Outer dark ring
+  const ringGrad = ctx.createRadialGradient(cx,cy,14,cx,cy,34);
+  ringGrad.addColorStop(0,'#1a2a4a');
+  ringGrad.addColorStop(1,'#0d1a36');
   ctx.beginPath();
-  ctx.ellipse(0, 0, RX, RY, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-  ctx.lineWidth = 2;
+  ctx.arc(cx,cy,34,0,Math.PI*2);
+  ctx.fillStyle=ringGrad;
+  ctx.fill();
+
+  // White fuzzy center — multiple small dots to simulate velvet/fluff
+  const CENTER_R = 28;
+  ctx.save();
+  // Base white circle
+  const cg = ctx.createRadialGradient(cx-4,cy-4,2,cx,cy,CENTER_R);
+  cg.addColorStop(0,'#ffffff');
+  cg.addColorStop(0.6,'#e8f0ff');
+  cg.addColorStop(1,'#c8d8f0');
+  ctx.beginPath();
+  ctx.arc(cx,cy,CENTER_R,0,Math.PI*2);
+  ctx.fillStyle=cg;
+  ctx.fill();
+
+  // Fuzzy dots pattern
+  const DOTS = 60;
+  for(let d=0;d<DOTS;d++){
+    const r = Math.random()*CENTER_R*0.88;
+    const a = Math.random()*Math.PI*2;
+    const dx = cx + Math.cos(a)*r;
+    const dy = cy + Math.sin(a)*r;
+    const sz = 1+Math.random()*3.5;
+    const light = 75+Math.random()*25;
+    ctx.beginPath();
+    ctx.arc(dx,dy,sz,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${0.3+Math.random()*0.5})`;
+    ctx.fill();
+  }
+
+  // Small yellow center stamens
+  const STAMEN_R = 10;
+  const sg = ctx.createRadialGradient(cx-2,cy-2,1,cx,cy,STAMEN_R);
+  sg.addColorStop(0,'#fff9c4');
+  sg.addColorStop(0.5,'#fdd835');
+  sg.addColorStop(1,'#f9a825');
+  ctx.beginPath();
+  ctx.arc(cx,cy,STAMEN_R,0,Math.PI*2);
+  ctx.fillStyle=sg;
+  ctx.fill();
+
+  // Tiny stamen dots
+  for(let s=0;s<18;s++){
+    const sr = 1+Math.random()*4;
+    const sa = Math.random()*Math.PI*2;
+    const sdx = cx + Math.cos(sa)*sr;
+    const sdy = cy + Math.sin(sa)*sr;
+    ctx.beginPath();
+    ctx.arc(sdx,sdy,0.8,0,Math.PI*2);
+    ctx.fillStyle='#bf8f00';
+    ctx.globalAlpha=0.7;
+    ctx.fill();
+    ctx.globalAlpha=1;
+  }
+  ctx.restore();
+}
+
+/* ── Stem ── */
+function drawStem(){
+  const stemX1=FX, stemY1=STEM_TOP+10;
+  const stemX2=FX+8, stemY2=430;
+
+  const sg = ctx.createLinearGradient(stemX1-5,0,stemX1+5,0);
+  sg.addColorStop(0,'#1b5e20');
+  sg.addColorStop(0.4,'#43a047');
+  sg.addColorStop(1,'#2e7d32');
+  ctx.save();
+  ctx.strokeStyle=sg;
+  ctx.lineWidth=7;
+  ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(stemX1,stemY1);
+  ctx.quadraticCurveTo(stemX1-8,340,stemX2,stemY2);
+  ctx.stroke();
+
+  // Left leaf
+  ctx.beginPath();
+  const lg = ctx.createLinearGradient(150,320,200,360);
+  lg.addColorStop(0,'#388e3c');
+  lg.addColorStop(1,'#1b5e20');
+  ctx.fillStyle=lg;
+  ctx.moveTo(FX-2,340);
+  ctx.bezierCurveTo(150,320,128,295,118,285);
+  ctx.bezierCurveTo(148,298,FX-5,320,FX-2,340);
+  ctx.fill();
+
+  // Right leaf
+  ctx.beginPath();
+  const rg = ctx.createLinearGradient(220,330,270,355);
+  rg.addColorStop(0,'#43a047');
+  rg.addColorStop(1,'#2e7d32');
+  ctx.fillStyle=rg;
+  ctx.moveTo(FX+4,355);
+  ctx.bezierCurveTo(238,338,258,318,268,308);
+  ctx.bezierCurveTo(248,322,FX+8,342,FX+4,355);
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ── Wrapping paper cone (bouquet wrap) ── */
+function drawWrap(){
+  // Silver-blue wrap cone
+  ctx.save();
+  const wg = ctx.createLinearGradient(140,330,260,460);
+  wg.addColorStop(0,'#b0bec5');
+  wg.addColorStop(0.3,'#cfd8dc');
+  wg.addColorStop(0.6,'#90a4ae');
+  wg.addColorStop(1,'#78909c');
+
+  ctx.beginPath();
+  ctx.moveTo(160,345);
+  ctx.lineTo(FX,460);
+  ctx.lineTo(240,345);
+  ctx.closePath();
+  ctx.fillStyle=wg;
+  ctx.fill();
+
+  // Wrap sheen
+  ctx.beginPath();
+  ctx.moveTo(165,348);
+  ctx.lineTo(185,455);
+  ctx.lineTo(175,345);
+  ctx.closePath();
+  ctx.fillStyle='rgba(255,255,255,0.15)';
+  ctx.fill();
+
+  // Wrap edge fold lines
+  for(let i=0;i<4;i++){
+    const tx = 165+i*17;
+    ctx.beginPath();
+    ctx.moveTo(tx,348);
+    ctx.lineTo(tx+5*(i+1), 455);
+    ctx.strokeStyle='rgba(100,140,160,0.25)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* ── Pink + Gold ribbon bow ── */
+function drawBow(){
+  const BX = FX, BY = 362;
+
+  // ── Ribbon tails ──
+  function tail(x1,y1,x2,y2,x3,y3,x4,y4,col){
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.lineTo(x3,y3);
+    ctx.lineTo(x4,y4);
+    ctx.closePath();
+    ctx.fillStyle=col;
+    ctx.fill();
+  }
+
+  const pinkGrad = ctx.createLinearGradient(BX-60,BY,BX+60,BY+80);
+  pinkGrad.addColorStop(0,'#e0aad0');
+  pinkGrad.addColorStop(0.5,'#ce93d8');
+  pinkGrad.addColorStop(1,'#ba68c8');
+
+  // Left tail
+  ctx.save();
+  tail(BX-16,BY+4, BX-45,BY+70, BX-38,BY+74, BX-8,BY+8, pinkGrad);
+  // Gold stripe left tail
+  ctx.beginPath();
+  ctx.moveTo(BX-20,BY+4);
+  ctx.lineTo(BX-50,BY+70);
+  ctx.strokeStyle='rgba(255,200,80,0.7)';
+  ctx.lineWidth=1.5;
+  ctx.stroke();
+
+  // Right tail
+  tail(BX+8,BY+8, BX+38,BY+74, BX+45,BY+70, BX+16,BY+4, pinkGrad);
+  ctx.beginPath();
+  ctx.moveTo(BX+20,BY+4);
+  ctx.lineTo(BX+50,BY+70);
+  ctx.strokeStyle='rgba(255,200,80,0.7)';
+  ctx.lineWidth=1.5;
   ctx.stroke();
   ctx.restore();
-}
 
-function drawCenter() {
-  // Outer dark ring
-  ctx.beginPath();
-  ctx.arc(CX, CY, 48, 0, Math.PI*2);
-  ctx.fillStyle = '#061230';
-  ctx.fill();
+  // ── Bow wings (left & right loops) ──
+  function bowWing(flip){
+    ctx.save();
+    ctx.scale(flip,1);
+    ctx.translate(0,0);
 
-  // Gold center
-  const cg = ctx.createRadialGradient(CX-14, CY-14, 2, CX, CY, 38);
-  cg.addColorStop(0, '#fffde7');
-  cg.addColorStop(0.5, '#fdd835');
-  cg.addColorStop(1, '#f57f17');
-  ctx.beginPath();
-  ctx.arc(CX, CY, 38, 0, Math.PI*2);
-  ctx.fillStyle = cg;
-  ctx.fill();
+    const wg2 = ctx.createRadialGradient(BX*flip-30*flip,BY-20,4,BX*flip-20*flip,BY-10,50);
+    wg2.addColorStop(0,'#f3e5f5');
+    wg2.addColorStop(0.4,'#ce93d8');
+    wg2.addColorStop(1,'#ab47bc');
 
-  // Seeds
-  const seeds = [[0,0],[13,-8],[-13,-8],[13,8],[-13,8],[0,-16],[0,16]];
-  seeds.forEach(([dx,dy]) => {
     ctx.beginPath();
-    ctx.arc(CX+dx, CY+dy, dx===0&&dy===0?6:4, 0, Math.PI*2);
-    ctx.fillStyle = dx===0&&dy===0?'#bf360c':'#e65100';
-    ctx.globalAlpha = 0.9;
+    ctx.moveTo(BX*flip,BY);
+    ctx.bezierCurveTo(
+      (BX-28)*flip, BY-46,
+      (BX-68)*flip, BY-52,
+      (BX-72)*flip, BY-30
+    );
+    ctx.bezierCurveTo(
+      (BX-68)*flip, BY-8,
+      (BX-28)*flip, BY-4,
+      BX*flip, BY
+    );
+    ctx.fillStyle=wg2;
     ctx.fill();
-  });
-  ctx.globalAlpha = 1;
 
-  // Highlight
+    // Gold trim line on bow edge
+    ctx.beginPath();
+    ctx.moveTo(BX*flip,BY);
+    ctx.bezierCurveTo(
+      (BX-28)*flip, BY-46,
+      (BX-68)*flip, BY-52,
+      (BX-72)*flip, BY-30
+    );
+    ctx.strokeStyle='rgba(212,175,55,0.75)';
+    ctx.lineWidth=1.8;
+    ctx.stroke();
+
+    // Inner highlight
+    ctx.beginPath();
+    ctx.moveTo(BX*flip,BY-2);
+    ctx.bezierCurveTo(
+      (BX-22)*flip, BY-36,
+      (BX-52)*flip, BY-40,
+      (BX-56)*flip, BY-26
+    );
+    ctx.strokeStyle='rgba(255,255,255,0.22)';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  bowWing(1);
+  bowWing(-1);
+
+  // ── Center knot ──
+  const kg = ctx.createRadialGradient(BX-4,BY-4,1,BX,BY,13);
+  kg.addColorStop(0,'#f8bbd0');
+  kg.addColorStop(0.5,'#e91e63');
+  kg.addColorStop(1,'#880e4f');
   ctx.beginPath();
-  ctx.arc(CX-9, CY-9, 10, 0, Math.PI*2);
-  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.ellipse(BX,BY,13,9,0,0,Math.PI*2);
+  ctx.fillStyle=kg;
+  ctx.fill();
+  // Gold ring on knot
+  ctx.beginPath();
+  ctx.ellipse(BX,BY,13,9,0,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,175,55,0.8)';
+  ctx.lineWidth=1.2;
+  ctx.stroke();
+  // Knot highlight
+  ctx.beginPath();
+  ctx.ellipse(BX-3,BY-2,5,3.5,-.4,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.3)';
   ctx.fill();
 }
 
-function drawFlower() {
-  ctx.clearRect(0, 0, CW, CH);
-  // Draw all 6 petals
-  for (let i = 0; i < 6; i++) {
-    drawPetal(i * 60, imgs[i]);
-  }
-  drawCenter();
+/* ── Main draw ── */
+function drawAll(){
+  ctx.clearRect(0,0,CW,CH);
+  drawWrap();
+  drawStem();
+  drawGerbera(FX,FY);
+  drawBow();
 }
 
+/* ── Floating animation ── */
 let floatT = 0;
-function startFlower() {
-  drawFlower(); // initial draw
-  // Floating animation
-  (function loop() {
-    floatT += 0.006;
-    const dy = Math.sin(floatT) * 10;
-    const dr = Math.sin(floatT * 0.55) * 1.2;
-    canvas.style.transform = `translateY(${dy}px) rotate(${dr}deg)`;
-    requestAnimationFrame(loop);
-  })();
+function animate(){
+  floatT += 0.005;
+  const dy = Math.sin(floatT)*8;
+  const dr = Math.sin(floatT*0.6)*1.0;
+  canvas.style.transform=`translateY(${dy}px) rotate(${dr}deg)`;
+  requestAnimationFrame(animate);
 }
 
-// Fallback: draw even if images haven't loaded after 2s
-setTimeout(() => { if (loaded < 6 && loaded >= 0) startFlower(); }, 2000);
+drawAll();
+animate();
 
-/* ─── Film strip builder ─── */
+
+/* ══════════════════════════════════════════════
+   FILM STRIP BUILDER
+══════════════════════════════════════════════ */
 function buildFilmStrip(trackEl, pics){
-  const repeats = 6;
+  const repeats = 8;
   const all = [];
   for(let r=0;r<repeats;r++) all.push(...pics);
   all.forEach(src => {
@@ -550,6 +812,7 @@ function buildFilmStrip(trackEl, pics){
     frame.className = 'film-frame';
     const img = document.createElement('img');
     img.src = src; img.alt = ''; img.loading = 'lazy';
+    img.decoding = 'async';
     frame.appendChild(img);
     trackEl.appendChild(frame);
   });
@@ -561,7 +824,10 @@ const rightPics = ['fpic6.png','fpic7.png','fpic8.png','fpic9.png','fpic10.png']
 buildFilmStrip(document.getElementById('track-left'),  leftPics);
 buildFilmStrip(document.getElementById('track-right'), rightPics);
 
-/* ─── Modal controls ─── */
+
+/* ══════════════════════════════════════════════
+   MODAL CONTROLS
+══════════════════════════════════════════════ */
 function openMain(){
   const m = document.getElementById('letter-modal');
   m.classList.add('hidden');
@@ -570,30 +836,30 @@ function openMain(){
   document.getElementById('mail-fab').classList.add('show');
   document.getElementById('mb').classList.add('show');
   const a = document.getElementById('bgm');
-  a.volume = .32; a.play().catch(()=>{});
+  a.volume=.32; a.play().catch(()=>{});
   spawnConfetti();
 }
 
 function reOpenLetter(){
   const m = document.getElementById('letter-modal');
-  m.style.display = 'flex';
+  m.style.display='flex';
   requestAnimationFrame(()=> m.classList.remove('hidden'));
-  document.getElementById('letter-paper').scrollTop = 0;
+  document.getElementById('letter-paper').scrollTop=0;
 }
 
 let playing = true;
 function toggleMusic(){
-  const a = document.getElementById('bgm'), b = document.getElementById('mb');
-  playing ? (a.pause(), b.textContent='🔇') : (a.play().catch(()=>{}), b.textContent='🎵');
-  playing = !playing;
+  const a=document.getElementById('bgm'), b=document.getElementById('mb');
+  playing?(a.pause(),b.textContent='🔇'):(a.play().catch(()=>{}),b.textContent='🎵');
+  playing=!playing;
 }
 
 function spawnConfetti(){
-  const c = document.getElementById('cl');
-  const cols = ['#1a6fc4','#4a9fe8','#90caf9','#d4a12a','#e0176e','#f0efff','#f72585'];
-  for(let i=0;i<50;i++){
-    const el = document.createElement('div'); el.className='cp';
-    const s = 4+Math.random()*8;
+  const c=document.getElementById('cl');
+  const cols=['#1a6fc4','#4a9fe8','#90caf9','#d4a12a','#e0176e','#f0efff','#f72585','#ce93d8'];
+  for(let i=0;i<55;i++){
+    const el=document.createElement('div'); el.className='cp';
+    const s=4+Math.random()*8;
     el.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;background:${cols[~~(Math.random()*cols.length)]};animation-duration:${5+Math.random()*9}s;animation-delay:${Math.random()*9}s;border-radius:${Math.random()>.5?'50%':'2px'};`;
     c.appendChild(el);
   }
