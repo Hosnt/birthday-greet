@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday, Thea 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1a6fc4;--blue2:#4a9fe8;--blue3:#90caf9;
+  --pink:#e0176e;--pink2:#f72585;
+  --dark:#06000f;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:var(--dark);
+  font-family:'Lato',sans-serif;
+  touch-action:manipulation;
+}
+
+/* ══════════════ LETTER ══════════════ */
+#letter-modal{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(6,0,15,.97);backdrop-filter:blur(10px);
+  transition:opacity .5s;
+}
+#letter-modal.hidden{opacity:0;pointer-events:none;}
+
+#letter-paper{
+  background:linear-gradient(160deg,#fffaf8,#fff4fa,#fffaf8);
+  border-radius:18px;
+  width:min(92vw,520px);
+  max-height:82dvh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:46px 28px 34px;
+  position:relative;
+  border:1.5px solid #f0b0d0;
+  box-shadow:0 0 0 1px rgba(224,23,110,.18),0 28px 80px rgba(224,23,110,.36);
+  animation:paperIn .5s cubic-bezier(.22,1,.36,1);
+  scrollbar-width:thin;scrollbar-color:#4a9fe8 #e8f4ff;
+}
+#letter-paper::-webkit-scrollbar{width:4px;}
+#letter-paper::-webkit-scrollbar-thumb{background:#4a9fe8;border-radius:4px;}
+@keyframes paperIn{from{opacity:0;transform:scale(.76) translateY(48px);}to{opacity:1;transform:none;}}
+#letter-paper::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,var(--pink),var(--pink) 12px,var(--blue) 12px,var(--blue) 24px);border-radius:18px 18px 0 0;}
+
+.lrules{background-image:repeating-linear-gradient(transparent,transparent 30px,#f0d0e8 30px,#f0d0e8 31px);}
+.lhead{font-family:'Alex Brush',cursive;font-size:clamp(1.75rem,5vw,2.35rem);color:#c9005e;text-align:center;margin-bottom:22px;line-height:1.2;}
+.lbody{font-family:'Playfair Display',serif;font-size:clamp(.95rem,2.4vw,1.04rem);line-height:2.05;color:#1a0030;}
+.lbody p{margin-bottom:1.4em;}
+.ldate{font-family:'Alex Brush',cursive;font-size:1.12rem;color:#c9005e;display:block;margin:12px 0 4px;}
+.lsign{font-family:'Alex Brush',cursive;font-size:1.85rem;color:#7a0039;text-align:right;margin-top:24px;}
+.lend{text-align:center;font-size:1.35rem;margin-top:14px;letter-spacing:5px;}
+#open-btn{
+  display:block;margin:28px auto 0;
+  padding:14px 48px;
+  font-family:'Alex Brush',cursive;font-size:1.5rem;color:#fff;
+  background:linear-gradient(135deg,#c9005e,#f72585);
+  border:none;border-radius:60px;cursor:pointer;
+  box-shadow:0 8px 28px rgba(224,23,110,.55);
+  transition:transform .2s,box-shadow .2s;
+}
+#open-btn:active{transform:scale(.95);}
+
+/* ══════════════ MAIN ══════════════ */
+#main{
+  position:fixed;inset:0;
+  overflow:hidden;
+  display:none;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+}
+#main.show{display:flex;}
+
+/* background */
+#bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 18% 80%,rgba(26,111,196,.18) 0%,transparent 52%),
+    radial-gradient(ellipse at 82% 18%,rgba(224,23,110,.12) 0%,transparent 50%),
+    linear-gradient(155deg,#1a0020,#0f001e,#06000f);
+}
+#bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px);
+  background-size:90px 80px;
+  opacity:.08;
+}
+
+/* confetti */
+#cl{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cp{position:absolute;border-radius:2px;animation:cfFall linear infinite;}
+@keyframes cfFall{0%{transform:translateY(-20px) rotate(0);opacity:.7;}100%{transform:translateY(102vh) rotate(780deg);opacity:0;}}
+
+/* ══════════════ FILM STRIPS ══════════════ */
+.film-strip{
+  width:130px;
+  height:100vh;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  background:#0a0a0a;
+  border-left:3px solid #1a1a1a;
+  border-right:3px solid #1a1a1a;
+}
+.film-strip::before,.film-strip::after{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;
+  width:14px;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 8px,
+    #000 8px,
+    #000 10px,
+    transparent 10px,
+    transparent 28px,
+    #0a0a0a 28px,
+    #0a0a0a 30px
+  );
+  z-index:2;
+}
+.film-strip::before{left:0;}
+.film-strip::after{right:0;}
+
+/* Sprocket holes */
+.sprockets{
+  position:absolute;
+  top:0;bottom:0;
+  width:14px;
+  z-index:3;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  overflow:hidden;
+}
+.sprockets.left{left:0;}
+.sprockets.right{right:0;}
+.sprocket-hole{
+  width:8px;height:6px;
+  background:#000;
+  border-radius:1.5px;
+  margin:0 auto;
+  flex-shrink:0;
+  margin-top:10px;
+}
+
+.film-track{
+  position:absolute;
+  left:14px;right:14px;
+  top:0;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  will-change:transform;
+}
+.film-track.scroll-down{ animation:scrollDown linear infinite; }
+.film-track.scroll-up{ animation:scrollUp linear infinite; }
+
+@keyframes scrollDown{
+  from{transform:translateY(0);}
+  to{transform:translateY(-50%);}
+}
+@keyframes scrollUp{
+  from{transform:translateY(-50%);}
+  to{transform:translateY(0);}
+}
+
+.film-frame{
+  width:100%;
+  aspect-ratio:1/1;
+  flex-shrink:0;
+  overflow:hidden;
+  background:#111;
+  border-top:3px solid #1a1a1a;
+  border-bottom:3px solid #1a1a1a;
+  position:relative;
+}
+.film-frame img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  filter:brightness(.92) contrast(1.05);
+}
+.film-frame::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* Fade edges on strips */
+.film-strip .fade-top,.film-strip .fade-bot{
+  position:absolute;left:0;right:0;height:80px;z-index:4;pointer-events:none;
+}
+.film-strip .fade-top{top:0;background:linear-gradient(to bottom,#06000f,transparent);}
+.film-strip .fade-bot{bottom:0;background:linear-gradient(to top,#06000f,transparent);}
+
+/* ══════════════ CENTER ══════════════ */
+#center{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  padding:0 10px;
+  position:relative;
+  z-index:2;
+}
+
+.htitle{
+  font-family:'Alex Brush',cursive;
+  font-size:clamp(2.2rem,6vw,4rem);
+  color:#fff;
+  line-height:1.1;
+  text-align:center;
+  text-shadow:0 0 40px rgba(26,111,196,.5),0 2px 14px rgba(224,23,110,.25);
+}
+.htitle span{
+  color:var(--blue3);
+  animation:nameGlow 3s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes nameGlow{
+  0%,100%{text-shadow:0 0 30px var(--blue2);}
+  50%{text-shadow:0 0 70px #fff,0 0 100px var(--blue2);}
+}
+.hsub{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(.78rem,1.8vw,1rem);
+  color:#8a9db8;
+  text-align:center;
+  letter-spacing:.04em;
+}
+
+/* ══════════════ FLOWER ══════════════ */
+#flower-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#flowerCanvas{
+  width:clamp(340px,42vw,520px);
+  height:clamp(340px,42vw,520px);
+  will-change:transform;
+}
+
+/* ══════════════ QUOTE ══════════════ */
+.quote-line{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(.78rem,1.6vw,.92rem);
+  color:#7a90aa;
+  text-align:center;
+  max-width:360px;
+  line-height:1.7;
+}
+.quote-line span{
+  font-family:'Alex Brush',cursive;
+  font-size:1.2em;
+  color:var(--blue3);
+  display:block;
+  margin-top:4px;
+}
+
+/* ══════════════ FABs ══════════════ */
+#mail-fab{
+  position:fixed;bottom:18px;left:18px;z-index:100;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--pink2));
+  border:none;color:#fff;font-size:1.15rem;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 18px rgba(224,23,110,.45);
+  transition:transform .2s;
+}
+#mail-fab.show{display:flex;}
+#mail-fab:active{transform:scale(.9);}
+#mb{
+  position:fixed;bottom:18px;right:18px;z-index:100;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  border:none;color:#fff;font-size:1.05rem;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 18px rgba(26,111,196,.4);
+  transition:transform .2s;
+}
+#mb.show{display:flex;}
+#mb:active{transform:scale(.9);}
+
+/* ══════════════ MOBILE ══════════════ */
+@media(max-width:600px){
+  .film-strip{width:90px;}
+  .film-track{left:12px;right:12px;}
+  .sprockets{width:12px;}
+  .film-strip::before,.film-strip::after{width:12px;}
+  #flower-svg{width:clamp(220px,60vw,320px);}
+  .htitle{font-size:clamp(1.9rem,8vw,2.6rem);}
+}
+</style>
+</head>
+<body>
+<audio id="bgm" loop><source src="mus2.mp3" type="audio/mpeg"></audio>
+<button id="mb" onclick="toggleMusic()">🎵</button>
+<button id="mail-fab" onclick="reOpenLetter()" title="Read letter again">💌</button>
+
+<!-- ══ LETTER ══ -->
+<div id="letter-modal">
+  <div id="letter-paper">
+    <div class="lrules">
+      <div class="lhead">Dear Thea, 🌸</div>
+      <div class="lbody">
+<p>Happy Birthday Babe!
+
+It's your first birthday with me. And im kinda nervous and pressure on what i want to give to you, but here i am with this gift and this is my first time making this (with assist). But i want to make this special, i want to make your day.
+
+Hindi ko inexpect na dito ako dadalhin ng tadhana sa tabi mo, sa piling mo. Nung una hindi natin ineexpect na magugustuhan natin yung isa't isa, nagsimula lang sa biruan at sa parehong humor. Pero habang tumatagal hindi ko napapansin na napapagaan mo na pala yung loob ko, kahit sobrang daming problema nung mga oras na yun, sobrang pressure sa expectation ng mga tao at sa mga problemang dala ng nakaraan.
+
+Nabubulag o nakakalimutan ko lahat yon kapag kasama kita, kapag kausap kita o kahit sa pagtingin ko lang sayo. Hindi ko namalayan na nag-iiba na pala tingin ko sayo, na mas lumalalim na pala yung pagtingin ko sayo. Nung una wala akong idea bakit sobrang gaan ng loob ko sayo, pero nung nag-inom ako at nasabi sayo yung totoong nararamdaman ko nagpakatotoo na'ko — nag-bakasakali ako na baka magustuhan mo din ako, at hindi nga'ko nagkamali kase pareho pala tayo ng nararamdaman.
+
+At nung mga panahon nayon na unti-unti na'ko nahuhumaling, dumadating na yung mga oras na hindi kona kaya kapag hindi ka nakakausap at hinahanap-hanap kana ng puso ko. Sa bawat araw na naguusap tayo mas nakikilala natin yung isa't isa at mas natututunan kitang mahalin.
+
+Sobrang grateful ako na akala ko yung mga maling desisyon ko puro nalang pagsisisi, pero nung dumating kana sa eksena dun na'ko nagkaroon ng pag-asa. Ikaw yung nagpatunay sakin na hindi pa huli ang lahat. Naniwala ka sakin, nagtiwala, at minahal ako.
+
+Fast forward nung mga oras na hindi na tayo naguusap sobrang tamlay ng araw ko — wala akong kakulitan, wala akong kaasaran at hinahanap-hanap kita. Todo yearn ako sa tiktok kahit alam ko na nakikita ng mga tao yon — na aappreciate mo padin.</p>
+
+<span class="ldate">December 18, 2025</span>
+<p>Peaceful day kasama mga tropa ko, wala akong iniisip na problema at akala ko maayos na lahat. Hanggang sa dumating na yung gabi — nasa bahay ako ni Kirby at walang kahit anong idea sa problemang mangyayari. Akala ko tinapon mo na lahat ng pinagsamahan natin at mga tinago natin sa isa't isa, pero hindi ako naniwala kahit nasasaktan. Pinakinggan ko yung puso ko na sumisigaw at naniwala sa mga sinabi mo.</p>
+
+<span class="ldate">December 19, 2025</span>
+<p>Nung mga oras na wala na'kong pag-asa na magkakaayos pa tayo kahit man lang maging magkaibigan nalang, nagulat ako nung tinanong mo'ko na kakayanin ko ba kung "date to marry" — na na-stunned ako. Sobrang hopeless na'ko at iniisip ko na ikaw na talaga yung greatest what if ko, pero hindi binigay mo yung desisyon mo at sinubukan uli magsimula kasama ako. Sobrang grateful ko na nabigyan ako ng ganong klase ng pagkakataon at hinding hindi ko sasayanin yon — paninindigan kita at papatunayan ko sayo na totoo yung pagmamahal ko sayo.</p>
+
+<p>Hanggang ngayon habang ginagawa ko yung letter na'to para sayo sobrang saya ng puso ko. Sobrang saya ko sayo, sobrang grateful at sobrang nagpapasalamat sa Diyos na binigay ka nya sakin.
+
+Nagawa mong iwan yung mga kaibigan mo at ipagtanggol ako sa kanila kahit alam ko na sobrang mahal mo sila — sobrang proud ako sa lakas ng loob mo. Sobrang saya ko din nung sinubukan mo na maglaro ng ML para makasama ako. Ambilis mo lang matuto at nakikita ko yung dedication mo. Sobrang proud ako sa talent mo sa CODM — every clutch situation na ikaw yung natitira, sobrang kabog ng dibdib ko. Manalo o matalo man tayo, sobrang proud ako sayo.
+
+Sobrang proud ako sa pagiging independent mo, sa pagiging ate araw-araw at sa pagiging mapagmahal na kapatid. Sobrang na-aappreciate ko yung niluto mo para sakin — isa yun sa mga pagkain na hindi ko makakalimutan.
+
+Hindi sapat yung salitang sobrang saya ko sayo para masabi kung gano talaga ako kasaya sayo. Ikaw at ikaw lang ang laman ng puso ko, wala na'ko iba pang hihilingin kundi maging matibay yung relationship nating binubuo, maging masaya sa araw-araw.
+
+I love the way you are and don't ever forget na sobrang ganda mo sa paningin ko — bagong gising man, stressed, o malungkot, hindi nagbabago yung pagtingin ko. I love you hair, your eyes, your lips, everything about you. I love you from head to toe.</p>
+
+<p>HAPPY HAPPY BIRTHDAY, THEA
+ILOVEYOU!!</p>
+      </div>
+      <div class="lsign">— Lance 💙</div>
+      <div class="lend">💗 💙 🌸 💗 💙</div>
+      <button id="open-btn" onclick="openMain()">Open 💐</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+  <div id="bg"></div>
+  <div id="cl"></div>
+
+  <!-- LEFT FILM STRIP -->
+  <div class="film-strip" id="strip-left">
+    <div class="fade-top"></div>
+    <div class="fade-bot"></div>
+    <div class="film-track scroll-down" id="track-left"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div id="center">
+    <h1 class="htitle">Happy Birthday,<br><span>Thea</span>!</h1>
+    <p class="hsub">Today the whole universe celebrates you 🎂</p>
+
+    <div id="flower-wrap">
+      <canvas id="flowerCanvas"></canvas>
+    </div>
+
+    <p class="quote-line">
+      "Ikaw at ikaw lang ang laman ng puso ko."
+      <span>— Lance 💙</span>
+    </p>
+  </div>
+
+  <!-- RIGHT FILM STRIP -->
+  <div class="film-strip" id="strip-right">
+    <div class="fade-top"></div>
+    <div class="fade-bot"></div>
+    <div class="film-track scroll-up" id="track-right"></div>
+  </div>
+
+</div>
+
+<script>
+/* ─── Canvas Flower ─── */
+const PETAL_SRCS = ['pic.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png'];
+const CW = 460, CH = 460;         // canvas internal resolution (square, no stem)
+const CX = 230, CY = 230;         // flower center
+const RX = 88,  RY = 138;         // petal half-widths (bigger petals)
+const PETAL_DIST = 130;           // distance from center to petal center
+
+let flowerAngle = 0;
+const canvas = document.getElementById('flowerCanvas');
+canvas.width  = CW;
+canvas.height = CH;
+const ctx = canvas.getContext('2d');
+
+// Load all 6 images first, then draw
+const imgs = [];
+let loaded = 0;
+PETAL_SRCS.forEach((src, i) => {
+  const img = new Image();
+  img.onload  = () => { loaded++; if(loaded === 6) startFlower(); };
+  img.onerror = () => { loaded++; if(loaded === 6) startFlower(); }; // still draw on fail
+  img.src = src;
+  imgs[i] = img;
+});
+
+function drawPetal(angleDeg, img) {
+  const rad = (angleDeg * Math.PI) / 180;
+  // Center of this petal in global coords
+  const px = CX + Math.sin(rad) * PETAL_DIST;
+  const py = CY - Math.cos(rad) * PETAL_DIST;
+
+  ctx.save();
+  // Move to petal center, rotate so petal points outward from flower center
+  ctx.translate(px, py);
+  ctx.rotate(rad);
+
+  // Draw petal shadow
+  ctx.shadowColor = 'rgba(2,0,20,0.55)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 4;
+
+  // Clip to ellipse shape
+  ctx.beginPath();
+  ctx.ellipse(0, 0, RX, RY, 0, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Fill dark blue base
+  ctx.fillStyle = '#162d6a';
+  ctx.fillRect(-RX, -RY, RX*2, RY*2);
+
+  // Draw image zoomed out more — use min scale so whole image is visible, then scale up slightly
+  if (img && img.naturalWidth > 0) {
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    const bw = RX * 2, bh = RY * 2;
+    // Use min to fit the image (zoom out), then multiply by 0.85 to show even more context
+    const scale = Math.min(bw / iw, bh / ih) * 1.15;
+    const dw = iw * scale, dh = ih * scale;
+    const dx = -dw / 2, dy = -dh / 2;
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }
+
+  // Subtle highlight overlay
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  const hl = ctx.createRadialGradient(-RX*0.3, -RY*0.4, 0, 0, 0, RX*1.2);
+  hl.addColorStop(0, 'rgba(255,255,255,0.12)');
+  hl.addColorStop(1, 'rgba(0,0,80,0.18)');
+  ctx.fillStyle = hl;
+  ctx.fillRect(-RX, -RY, RX*2, RY*2);
+
+  ctx.restore();
+
+  // Petal border (drawn outside clip)
+  ctx.save();
+  ctx.translate(px, py);
+  ctx.rotate(rad);
+  ctx.beginPath();
+  ctx.ellipse(0, 0, RX, RY, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawCenter() {
+  // Outer dark ring
+  ctx.beginPath();
+  ctx.arc(CX, CY, 48, 0, Math.PI*2);
+  ctx.fillStyle = '#061230';
+  ctx.fill();
+
+  // Gold center
+  const cg = ctx.createRadialGradient(CX-14, CY-14, 2, CX, CY, 38);
+  cg.addColorStop(0, '#fffde7');
+  cg.addColorStop(0.5, '#fdd835');
+  cg.addColorStop(1, '#f57f17');
+  ctx.beginPath();
+  ctx.arc(CX, CY, 38, 0, Math.PI*2);
+  ctx.fillStyle = cg;
+  ctx.fill();
+
+  // Seeds
+  const seeds = [[0,0],[13,-8],[-13,-8],[13,8],[-13,8],[0,-16],[0,16]];
+  seeds.forEach(([dx,dy]) => {
+    ctx.beginPath();
+    ctx.arc(CX+dx, CY+dy, dx===0&&dy===0?6:4, 0, Math.PI*2);
+    ctx.fillStyle = dx===0&&dy===0?'#bf360c':'#e65100';
+    ctx.globalAlpha = 0.9;
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // Highlight
+  ctx.beginPath();
+  ctx.arc(CX-9, CY-9, 10, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.fill();
+}
+
+function drawFlower() {
+  ctx.clearRect(0, 0, CW, CH);
+  // Draw all 6 petals
+  for (let i = 0; i < 6; i++) {
+    drawPetal(i * 60, imgs[i]);
+  }
+  drawCenter();
+}
+
+let floatT = 0;
+function startFlower() {
+  drawFlower(); // initial draw
+  // Floating animation
+  (function loop() {
+    floatT += 0.006;
+    const dy = Math.sin(floatT) * 10;
+    const dr = Math.sin(floatT * 0.55) * 1.2;
+    canvas.style.transform = `translateY(${dy}px) rotate(${dr}deg)`;
+    requestAnimationFrame(loop);
+  })();
+}
+
+// Fallback: draw even if images haven't loaded after 2s
+setTimeout(() => { if (loaded < 6 && loaded >= 0) startFlower(); }, 2000);
+
+/* ─── Film strip builder ─── */
+function buildFilmStrip(trackEl, pics){
+  const repeats = 6;
+  const all = [];
+  for(let r=0;r<repeats;r++) all.push(...pics);
+  all.forEach(src => {
+    const frame = document.createElement('div');
+    frame.className = 'film-frame';
+    const img = document.createElement('img');
+    img.src = src; img.alt = ''; img.loading = 'lazy';
+    frame.appendChild(img);
+    trackEl.appendChild(frame);
+  });
+  trackEl.style.animationDuration = (pics.length * 5) + 's';
+}
+
+const leftPics  = ['fpic.png','fpic2.png','fpic3.png','fpic4.png','fpic5.png'];
+const rightPics = ['fpic6.png','fpic7.png','fpic8.png','fpic9.png','fpic10.png'];
+buildFilmStrip(document.getElementById('track-left'),  leftPics);
+buildFilmStrip(document.getElementById('track-right'), rightPics);
+
+/* ─── Modal controls ─── */
+function openMain(){
+  const m = document.getElementById('letter-modal');
+  m.classList.add('hidden');
+  setTimeout(()=>{ m.style.display='none'; }, 520);
+  document.getElementById('main').classList.add('show');
+  document.getElementById('mail-fab').classList.add('show');
+  document.getElementById('mb').classList.add('show');
+  const a = document.getElementById('bgm');
+  a.volume = .32; a.play().catch(()=>{});
+  spawnConfetti();
+}
+
+function reOpenLetter(){
+  const m = document.getElementById('letter-modal');
+  m.style.display = 'flex';
+  requestAnimationFrame(()=> m.classList.remove('hidden'));
+  document.getElementById('letter-paper').scrollTop = 0;
+}
+
+let playing = true;
+function toggleMusic(){
+  const a = document.getElementById('bgm'), b = document.getElementById('mb');
+  playing ? (a.pause(), b.textContent='🔇') : (a.play().catch(()=>{}), b.textContent='🎵');
+  playing = !playing;
+}
+
+function spawnConfetti(){
+  const c = document.getElementById('cl');
+  const cols = ['#1a6fc4','#4a9fe8','#90caf9','#d4a12a','#e0176e','#f0efff','#f72585'];
+  for(let i=0;i<50;i++){
+    const el = document.createElement('div'); el.className='cp';
+    const s = 4+Math.random()*8;
+    el.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;background:${cols[~~(Math.random()*cols.length)]};animation-duration:${5+Math.random()*9}s;animation-delay:${Math.random()*9}s;border-radius:${Math.random()>.5?'50%':'2px'};`;
+    c.appendChild(el);
+  }
+}
+</script>
+</body>
+</html>
